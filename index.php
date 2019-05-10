@@ -2,17 +2,17 @@
  <head>
  <Title>Registration Form</Title>
  <style type="text/css">
- 	body { background-color: #fff; border-top: solid 10px #000;
- 	    color: #333; font-size: .85em; margin: 20; padding: 20;
- 	    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
- 	}
- 	h1, h2, h3,{ color: #000; margin-bottom: 0; padding-bottom: 0; }
- 	h1 { font-size: 2em; }
- 	h2 { font-size: 1.75em; }
- 	h3 { font-size: 1.2em; }
- 	table { margin-top: 0.75em; }
- 	th { font-size: 1.2em; text-align: left; border: none; padding-left: 0; }
- 	td { padding: 0.25em 2em 0.25em 0em; border: 0 none; }
+    body { background-color: #fff; border-top: solid 10px #000;
+        color: #333; font-size: .85em; margin: 20; padding: 20;
+        font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    }
+    h1, h2, h3,{ color: #000; margin-bottom: 0; padding-bottom: 0; }
+    h1 { font-size: 2em; }
+    h2 { font-size: 1.75em; }
+    h3 { font-size: 1.2em; }
+    table { margin-top: 0.75em; }
+    th { font-size: 1.2em; text-align: left; border: none; padding-left: 0; }
+    td { padding: 0.25em 2em 0.25em 0em; border: 0 none; }
  </style>
  </head>
  <body>
@@ -26,18 +26,16 @@
        <input type="submit" name="load_data" value="Load Data" />
  </form>
  <?php
-    $host = "<webserverapp.database.windows.net>";
+    $host = "<saawebappserver.database.windows.net>";
     $user = "<silmi>";
     $pass = "<Anime7manga15>";
-    $db = "  <submission>";
-
+    $db   = "<webdata>";
     try {
         $conn = new PDO("sqlsrv:server = $host; Database = $db", $user, $pass);
         $conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     } catch(Exception $e) {
         echo "Failed: " . $e;
     }
-
     if (isset($_POST['submit'])) {
         try {
             $name = $_POST['name'];
@@ -45,7 +43,7 @@
             $job = $_POST['job'];
             $date = date("Y-m-d");
             // Insert data
-            $sql_insert = "INSERT INTO Registrasi (name, email, job, date) 
+            $sql_insert = "INSERT INTO Registration (name, email, job, date) 
                         VALUES (?,?,?,?)";
             $stmt = $conn->prepare($sql_insert);
             $stmt->bindValue(1, $name);
@@ -56,11 +54,10 @@
         } catch(Exception $e) {
             echo "Failed: " . $e;
         }
-
         echo "<h3>Your're registered!</h3>";
     } else if (isset($_POST['load_data'])) {
         try {
-            $sql_select = "SELECT * FROM Registrasi";
+            $sql_select = "SELECT * FROM Registration";
             $stmt = $conn->query($sql_select);
             $registrants = $stmt->fetchAll(); 
             if(count($registrants) > 0) {
@@ -86,4 +83,4 @@
     }
  ?>
  </body>
- </html>
+</html>
